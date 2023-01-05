@@ -4,7 +4,7 @@ import pybullet_data
 
 physicsClient = p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
-
+ 
 p.loadSDF("box.sdf")
 p.setGravity(0,0,-9.8)
 
