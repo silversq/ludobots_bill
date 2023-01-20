@@ -8,7 +8,7 @@ from simulation import SIMULATION
 
 
 simulation = SIMULATION()
-simulation.Run()
+simulation.Run()    
 
 
 #backLegSensorValues = numpy.zeros(1000)

@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\pyrosim"
   ],
-  "SelectedNode": "\\simulate.py",
+  "SelectedNode": "\\pyrosim\\neuralNetwork.py",
   "PreviewInSolutionExplorer": false
 }

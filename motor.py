@@ -5,7 +5,6 @@ import pybullet as p
 class MOTOR:
     def __init__(self, jointName):
         self.jointName = jointName
-        self.Prepare_To_Act()
     
     def Set_Value(self, robot, i):
         pyrosim.Set_Motor_For_Joint(bodyIndex = robot, jointName = self.jointName, controlMode = p.POSITION_CONTROL, 
