@@ -5,10 +5,12 @@ import pyrosim.pyrosim as pyrosim
 import numpy
 import constants as c
 from simulation import SIMULATION
+import sys
 
-
-simulation = SIMULATION()
+directOrGUI = sys.argv[1]
+simulation = SIMULATION(directOrGUI)
 simulation.Run()    
+simulation.Get_Fitness()
 
 
 #backLegSensorValues = numpy.zeros(1000)

@@ -1,8 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\pyrosim"
+    ""
   ],
-  "SelectedNode": "\\generate.py",
+  "SelectedNode": "\\robot.py",
   "PreviewInSolutionExplorer": false
 }

@@ -4,11 +4,15 @@ import pybullet_data
 import pybullet as p
 import time
 import pyrosim.pyrosim as pyrosim
-
+import constants as c
 
 class SIMULATION:
-    def __init__(self):
-        self.physicsClient = p.connect(p.GUI)
+    def __init__(self, directOrGUI):
+        self.directOrGUI = directOrGUI
+        if directOrGUI == 'DIRECT':
+            self.physicsClient = p.connect(p.DIRECT)
+        else:
+            self.physicsClient = p.connect(p.GUI)
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         self.world = WORLD()
         self.robot = ROBOT()
@@ -19,12 +23,16 @@ class SIMULATION:
         self.robot.Prepare_To_Act()
     def Run(self):
         
-        for i in range(100):
+        for i in range(c.nSteps):
             p.stepSimulation()
             self.robot.SENSE(i)
             self.robot.Think()
             self.robot.Act(i)
-            time.sleep(1/60)
+            if self.directOrGUI == 'GUI':
+                time.sleep(1/60)
 
     def __del__(self):
         p.disconnect()
+
+    def Get_Fitness(self):
+        self.robot.Get_Fitness()
