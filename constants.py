@@ -2,7 +2,7 @@ import numpy
 
 numberOfGenerations = 10
 nSteps = 200
-
+populationSize = 10
 backAmplitude = numpy.pi/4
 backFrequency = 10
 backPhaseOffset = 0

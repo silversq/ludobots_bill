@@ -3,13 +3,13 @@ from sensor import SENSOR
 import pyrosim.pyrosim as pyrosim
 import pybullet as p
 from pyrosim.neuralNetwork import NEURAL_NETWORK
-
+import os
 
 class ROBOT:
-    def __init__(self):
-        self.nn = NEURAL_NETWORK("brain.nndf")
+    def __init__(self, solutionId):
+        self.nn = NEURAL_NETWORK("brain" + str(solutionId) + ".nndf")
         self.robotId = p.loadURDF("body.urdf")
-    
+        os.system('del brain' + str(solutionId) + '.nndf')
     def Prepare_To_Sense(self):
         self.sensors = {}
         for linkName in pyrosim.linkNamesToIndices:
@@ -32,13 +32,14 @@ class ROBOT:
                 jointName = bytes(jointName, 'utf-8')
                 self.motors[jointName].Set_Value(self.robotId, desiredAngle)
 
-    def Get_Fitness(self):
+    def Get_Fitness(self, solutionId):
         stateOfLinkZero = p.getLinkState(self.robotId,0)
         positionOfLinkZero = stateOfLinkZero[0]
         xCoordinateOfLinkZero = positionOfLinkZero[0]
-        f = open("fitness.txt", "w")
+        f = open("tmp" + str(solutionId) + ".txt", "w")
         f.write(str(xCoordinateOfLinkZero))
         f.close()
+        os.system("rename tmp" + str(solutionId) + ".txt " + "fitness" + str(solutionId) + ".txt")
     def Think(self):
         self.nn.Update()
         # self.nn.Print()
