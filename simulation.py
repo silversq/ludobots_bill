@@ -19,7 +19,7 @@ class SIMULATION:
         self.robot.Prepare_To_Act()
     def Run(self):
         
-        for i in range(1000):
+        for i in range(100):
             p.stepSimulation()
             self.robot.SENSE(i)
             self.robot.Think()
