@@ -4,7 +4,7 @@ import pyrosim.pyrosim as pyrosim
 import pybullet as p
 from pyrosim.neuralNetwork import NEURAL_NETWORK
 import os
-
+import constants as c
 class ROBOT:
     def __init__(self, solutionId):
         self.nn = NEURAL_NETWORK("brain" + str(solutionId) + ".nndf")
@@ -30,7 +30,7 @@ class ROBOT:
                 jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
                 desiredAngle = self.nn.Get_Value_Of(neuronName)
                 jointName = bytes(jointName, 'utf-8')
-                self.motors[jointName].Set_Value(self.robotId, desiredAngle)
+                self.motors[jointName].Set_Value(self.robotId, desiredAngle*c.motorJointAngle)
 
     def Get_Fitness(self, solutionId):
         stateOfLinkZero = p.getLinkState(self.robotId,0)

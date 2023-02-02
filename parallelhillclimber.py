@@ -40,8 +40,8 @@ class PARALLEL_HILL_CLIMBER:
         self.children = {}
         for parent in self.parents.keys():
             self.children[parent] = copy.deepcopy(self.parents[parent])
-            self.children[parent].myID = self.nextAvailableID
             self.nextAvailableID += 1
+            self.children[parent].Set_ID(self.nextAvailableID)
 
     def Mutate(self):
         for i in self.children:
