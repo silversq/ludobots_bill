@@ -1,13 +1,13 @@
 import numpy 
 
-numberOfGenerations = 10
-populationSize = 10
+numberOfGenerations = 1
+populationSize = 1
 
-motorJointAngle = 0.2
-nSteps = 500
+motorJointAngle = 1
+nSteps = 300
 
-numSensorNeurons = 4
-numMotorNeurons = 8
+numSensorNeurons = 1
+numMotorNeurons = 1
 backAmplitude = numpy.pi/4
 backFrequency = 10
 backPhaseOffset = 0
