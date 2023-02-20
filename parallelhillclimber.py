@@ -2,6 +2,7 @@ import constants as c
 from solution import SOLUTION
 import copy
 import os
+
 class PARALLEL_HILL_CLIMBER:
     def __init__(self):
         os.system("del brain*.nndf")
