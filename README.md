@@ -1,6 +1,10 @@
-# own_creature
+# 3D creature
  
 The creature will spawn 15 links that have a 50% chance of becoming a sensor neuron. Each link can heights, width, and length range between 0.2 and 1. When a sensor neuron is activated, it should change the front motor neuron. Body generation will choose from random available faces from each link. Min and max x, y, z are remembered for each link to use for overlapping checks.
+
+All information for setting up the bots was found in the reddit ludobots instructions starting here:
+
+https://www.reddit.com/r/ludobots/wiki/installation/
 
 Below is a diagram illustrating the body and brain generation:
 
