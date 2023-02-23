@@ -5,6 +5,7 @@ The creature will spawn 15 links that have a 50% chance of becoming a sensor neu
 All information for setting up the bots was found in the reddit ludobots instructions starting here:
 
 https://www.reddit.com/r/ludobots/wiki/installation/
+
 Neural Network for robots gotten from pyrosim:
 https://github.com/jbongard/pyrosim
 
