@@ -11,6 +11,9 @@ https://www.reddit.com/r/ludobots/wiki/installation/
 Neural Network for robots gotten from pyrosim:
 https://github.com/jbongard/pyrosim
 
+Below is a diagram containing fitness curves of the creatures with 5 different random seeds:
+![Figure_1](https://user-images.githubusercontent.com/67875325/221719952-3fbce6a1-3dcf-4283-bfbd-9732da2632f7.png)
+
 Below is a diagram illustrating the body and brain generation:
 
 ![20230227_171729](https://user-images.githubusercontent.com/67875325/221718886-d7adf3ad-2da1-4019-bfce-88c3f642dc40.jpg)
