@@ -8,8 +8,10 @@ import constants as c
 class ROBOT:
     def __init__(self, solutionId):
         self.nn = NEURAL_NETWORK("brain" + str(solutionId) + ".nndf")
-        self.robotId = p.loadURDF("body.urdf")
+        self.robotId = p.loadURDF("body" + str(solutionId) + ".urdf")
         os.system('del brain' + str(solutionId) + '.nndf')
+        os.system('del body' + str(solutionId) + '.urdf')
+    
     def Prepare_To_Sense(self):
         self.sensors = {}
         for linkName in pyrosim.linkNamesToIndices:
@@ -39,7 +41,7 @@ class ROBOT:
         f = open("tmp" + str(solutionId) + ".txt", "w")
         f.write(str(xCoordinateOfLinkZero))
         f.close()
-        os.system("rename tmp" + str(solutionId) + ".txt " + "fitness" + str(solutionId) + ".txt")
+        os.system("rename tmp" + str(solutionId) + ".txt " + "fitness_" + str(solutionId) + ".txt")
     def Think(self):
         self.nn.Update()
         # self.nn.Print()

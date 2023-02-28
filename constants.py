@@ -3,8 +3,9 @@ import numpy
 numberOfGenerations = 1
 populationSize = 1
 
-motorJointAngle = 0.5
+motorJointAngle = 0.7
 nSteps = 1000
+randomSeed = 2
 
 numSensorNeurons = 1
 numMotorNeurons = 1
