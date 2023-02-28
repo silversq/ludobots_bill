@@ -11,5 +11,5 @@ https://github.com/jbongard/pyrosim
 
 Below is a diagram illustrating the body and brain generation:
 
-![20230220_165559](https://user-images.githubusercontent.com/67875325/220210109-d398300a-d719-4912-912c-bbaca28213d5.jpg)
-![20230220_165553](https://user-images.githubusercontent.com/67875325/220210138-b6a3ac0f-c5f9-4b1d-8bbd-78d5270a3244.jpg)
+![20230227_171736](https://user-images.githubusercontent.com/67875325/221718861-43a55cf9-103a-4964-a17b-29f507aac4e6.jpg)
+![20230227_171729](https://user-images.githubusercontent.com/67875325/221718886-d7adf3ad-2da1-4019-bfce-88c3f642dc40.jpg)
