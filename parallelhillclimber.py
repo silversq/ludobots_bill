@@ -28,17 +28,17 @@ class PARALLEL_HILL_CLIMBER:
     def Show_Best(self):
         lowest_parent = self.parents[0]
         for i in self.parents.keys():
-            if self.parents[i].fitness < lowest_parent.fitness:
+            if self.parents[i].fitness > lowest_parent.fitness:
                 lowest_parent = self.parents[i]
                 d = i
-        # print('\n Lowest fitness: ' + str(lowest_parent.fitness) + '\n')
-        # print(self.graph[d])
+        print(self.graph[d])
+        print(lowest_parent.fitness)
         lowest_parent.Start_Simulation('GUI')
-        x = [i for i in range(0, c.numberOfGenerations)]
-        for i in self.graph.keys():
-            plt.plot(x, [-j for j in self.graph[i]])
-        # plt.legend()
-        plt.show()
+        # x = [i for i in range(0, c.numberOfGenerations)]
+        # for i in self.graph.keys():
+        #     plt.plot(x, [-j for j in self.graph[i]])
+        # # plt.legend()
+        # plt.show()
     def Evolve_For_One_Generation(self):
         self.Spawn()
         self.Mutate()
@@ -72,6 +72,6 @@ class PARALLEL_HILL_CLIMBER:
 
     def Select(self):
         for i in self.parents.keys():
-            if self.parents[i].fitness > self.children[i].fitness:
+            if self.parents[i].fitness < self.children[i].fitness:
                 self.parents[i] = self.children[i]
             self.graph[i].append(self.parents[i].fitness)

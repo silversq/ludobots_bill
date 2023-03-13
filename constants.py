@@ -1,11 +1,11 @@
 import numpy 
 
-numberOfGenerations = 1
-populationSize = 1
+numberOfGenerations = 500
+populationSize = 10
 
 motorJointAngle = 0.7
 nSteps = 1000
-randomSeed = 2
+randomSeed = 5
 
 numSensorNeurons = 1
 numMotorNeurons = 1

@@ -19,6 +19,8 @@ class SOLUTION:
         self.ctr = 1
         self.storage = {self.myId : [],'Joint': [], 'Sensor': [], 'Motor': []}
         self.lastiD = -1
+        self.remove = {}
+        self.actual_number_links = 0
     def Set_ID(self, iD):
         self.lastiD = self.myId
         self.myId = iD
@@ -32,6 +34,9 @@ class SOLUTION:
         else:
             self.Update_Body()
             self.Update_Brain()
+        os.system('start /B py simulate.py ' + directOrGUI + ' ' + str(self.myId))
+
+    def Show_Simulation(self, directOrGUI):
         os.system('start /B py simulate.py ' + directOrGUI + ' ' + str(self.myId))
 
     def Wait_For_Simulation_To_End(self):
@@ -52,7 +57,8 @@ class SOLUTION:
         randrow = random.randint(0, self.numSensorNeurons-1)
         randcol = random.randint(0, self.numMotorNeurons-1)
         self.weights[randrow, randcol] = random.random()*2-1
-        if random.random() < 0.5:
+        rndnum = random.random()
+        if rndnum < 0.7:
             overlapping = True
             self.number_links += 1
             while overlapping:
@@ -112,12 +118,12 @@ class SOLUTION:
             if random.random() < .5:
                 self.storage[self.lastiD].append(["Cube"+str(self.number_links), cube_pos , [length,width,height], "Green","0 1.0 0.0 1.0"])
                 if "Cube"+str(self.number_links) not in self.sensors:
-                    self.storage['Sensor'].append([self.numSensorNeurons+1, "Cube"+str(self.number_links)])
+                    self.storage['Sensor'].append("Cube"+str(self.number_links))
                     self.numSensorNeurons += 1
                     self.numMotorNeurons += 1
             else:
                 self.storage[self.lastiD].append(["Cube"+str(self.number_links),cube_pos, [length,width,height],"Cyan", "0 1.0 1.0 1.0"])
-            self.storage['Motor'].append([self.numMotorNeurons+1, new_link_pos[0]+"_Cube"+str(self.number_links)])
+            self.storage['Motor'].append(new_link_pos[0]+"_Cube"+str(self.number_links))
 
             old_length = length
             old_width = width
@@ -139,19 +145,65 @@ class SOLUTION:
                 old_length = 0
             self.add_faces("Cube"+str(self.number_links), length, width, height, last_pos, old_length, old_width, old_height)
             # print(self.possible_positions)
+            if "Cube"+str(self.number_links) not in self.remove:
+                self.remove["Cube"+str(self.number_links)] = [new_link_pos[0]+"_Cube"+str(self.number_links)]
+            else:
+                self.remove["Cube"+str(self.number_links)].append(new_link_pos[0]+"_Cube"+str(self.number_links))
+            if new_link_pos[0] in self.remove:
+                self.remove[new_link_pos[0]].append(new_link_pos[0]+"_Cube"+str(self.number_links))
+        # elif rndnum > 0.33 and rndnum < 0.68:
+        #     notChanged = True
+        #     while notChanged and self.numSensorNeurons != self.number_links-1:
+        #         c = random.randint(0, len(self.storage[self.lastiD])-1)
+        #         # print(c, self.numSensorNeurons, self.number_links)
+        #         if self.storage[self.lastiD][c][3] == "Cyan":
+        #             self.storage[self.lastiD][c][3] = "Green"
+        #             self.storage[self.lastiD][c][4] = "0 1.0 0.0 1.0"
+        #             self.storage['Sensor'].append(self.storage[self.lastiD][c][0])
+        #             self.storage['Motor'].append(self.storage['Joint'][c-1 if c != 0 else 0][0])
+        #             self.numSensorNeurons += 1
+        #             self.numMotorNeurons += 1
+        #             notChanged=False
         else:
-            notChanged = True
-            while notChanged and self.numSensorNeurons != self.number_links-1:
-                c = random.randint(0, len(self.storage[self.lastiD])-1)
-                # print(c, self.numSensorNeurons, self.number_links)
-                if self.storage[self.lastiD][c][3] == "Cyan":
-                    self.storage[self.lastiD][c][3] = "Green"
-                    self.storage[self.lastiD][c][4] = "0 1.0 0.0 1.0"
-                    self.storage['Sensor'].append([self.numSensorNeurons+1, self.storage[self.lastiD][c][0]])
-                    self.storage['Motor'].append([self.numMotorNeurons+1, self.storage['Joint'][c-1 if c != 0 else 0][0]])
-                    self.numSensorNeurons += 1
-                    self.numMotorNeurons += 1
-                    notChanged=False
+            joint_to_remove = ""
+            link_to_remove = ""
+            # self.number_links -= 1
+            if len(self.remove.keys()) > 3: 
+                while True:
+                    link_name, joints = random.choice(list(self.remove.items()))
+                    if len(joints) == 1:
+                        for i in self.remove.keys():
+                            temp = []
+                            for j in self.remove[i]:
+                                if link_name not in j:
+                                    temp.append(j)
+                                else:
+                                    joint_to_remove = j
+                            self.remove[i] = temp
+                        if joint_to_remove == "":
+                            joint_to_remove = j
+                        self.remove.pop(link_name)
+                        link_to_remove = link_name
+                        break
+                if joint_to_remove in self.storage['Motor']:
+                    self.storage['Motor'].remove(joint_to_remove)
+                if link_to_remove in self.storage['Sensor']:
+                    self.storage['Sensor'].remove(link_to_remove)
+                for i in self.storage['Joint']:
+                    if i[0] == joint_to_remove:
+                        self.storage['Joint'].remove(i)
+                        break
+                for i in self.storage[self.lastiD]:
+                    if i[0] == link_to_remove:
+                        self.storage[self.lastiD].remove(i)
+                        break
+                possible_to_remove = []
+                self.space_taken.pop(link_to_remove)
+                for i in range(0,len(self.possible_positions)):
+                    if self.possible_positions[i][0] == link_to_remove:
+                        possible_to_remove.append(self.possible_positions[i])
+                for i in possible_to_remove:
+                    self.possible_positions.remove(i)
         self.storage = {self.myId: self.storage[self.lastiD], 'Joint': self.storage['Joint'], 'Sensor': self.storage['Sensor'],'Motor': self.storage['Motor']}
     def Create_World(self):
         pyrosim.Start_SDF("world.sdf")
@@ -173,15 +225,18 @@ class SOLUTION:
         sensor = self.storage['Sensor']
         motor = self.storage['Motor']
         pyrosim.Start_NeuralNetwork("brain" + str(self.myId) + ".nndf")
+        neurons = 0
         for i in sensor:
-            pyrosim.Send_Sensor_Neuron(name = i[0], linkName = i[1])
+            pyrosim.Send_Sensor_Neuron(name = neurons, linkName = i)
+            neurons += 1
         for i in motor:
-            pyrosim.Send_Motor_Neuron( name = i[0] , jointName = i[1])
+            pyrosim.Send_Motor_Neuron( name = neurons, jointName = i)
+            neurons += 1
         self.numSensorNeurons = len(sensor)
         self.numMotorNeurons = len(motor)
         # print('\n', sensor, motor)
         self.weights = numpy.random.rand(self.numSensorNeurons, self.numMotorNeurons)
-        self.weights = self.weights*4-1  
+        self.weights = self.weights*4-1
 
         for currentRow in range(self.numSensorNeurons):
             for currentColumn in range(self.numMotorNeurons):
@@ -260,11 +315,11 @@ class SOLUTION:
                     self.random_links[i] = 0
 
         if self.random_links[0] == 1:
-            pyrosim.Send_Cube(name="Cube0", pos=[0,0,2] , size=[1,1,1], color="Green", rgb = "0 1.0 0.0 1.0")
-            self.storage[self.myId].append(["Cube0",[0,0,2], [1,1,1],"Green", "0 1.0 0.0 1.0"])
+            pyrosim.Send_Cube(name="Cube0", pos=[0,0,2] , size=[1,1,1], color="Red", rgb = "1.0 0.0 0.0 1.0")
+            self.storage[self.myId].append(["Cube0",[0,0,2], [1,1,1],"Red", "1.0 0.0 0.0 1.0"])
         else:
-            pyrosim.Send_Cube(name="Cube0", pos=[0,0,2] , size=[1,1,1], color="Cyan", rgb = "0 1.0 1.0 1.0")
-            self.storage[self.myId].append(["Cube0",[0,0,2], [1,1,1],"Cyan", "0 1.0 1.0 1.0"])
+            pyrosim.Send_Cube(name="Cube0", pos=[0,0,2] , size=[1,1,1], color="Red", rgb = "1.0 0.0 0.0 1.0")
+            self.storage[self.myId].append(["Cube0",[0,0,2], [1,1,1],"Red", "1.0 0.0 0.0 1.0"])
         # self.space_taken["Cube0"] = [abs_x+length/2, abs_x-length/2,abs_y+width/2, abs_y-width/2, abs_z+height/2, abs_z-height/2]
         self.space_taken["Cube0"] = [0,0,0]
         self.possible_positions = []
@@ -356,8 +411,8 @@ class SOLUTION:
             old_width = 0
             old_length = 0
         self.add_faces("Cube"+str(self.ctr), length, width, height, last_pos, old_length, old_width, old_height)
-
         self.ctr += 1
+        self.remove["Cube1"] = ["Cube0_Cube1"]
         for i in range(2,self.number_links):
             overlapping = True
 
@@ -427,7 +482,12 @@ class SOLUTION:
                 pyrosim.Send_Cube(name="Cube"+str(i), pos=cube_pos , size=[length,width,height], color="Cyan", rgb = "0 1.0 1.0 1.0")
                 self.storage[self.myId].append(["Cube"+str(i),cube_pos, [length,width,height],"Cyan", "0 1.0 1.0 1.0"])
             self.motors.append(new_link_pos[0]+"_Cube"+str(i))
-
+            if "Cube"+str(i) not in self.remove:
+                self.remove["Cube"+str(i)] = [new_link_pos[0]+"_Cube"+str(i)]
+            else:
+                self.remove["Cube"+str(i)].append(new_link_pos[0]+"_Cube"+str(i))
+            if new_link_pos[0] in self.remove:
+                self.remove[new_link_pos[0]].append(new_link_pos[0]+"_Cube"+str(i))
             old_length = length
             old_width = width
             old_height = height
@@ -457,11 +517,12 @@ class SOLUTION:
         pyrosim.End()
 
     def Create_Brain(self):
+        self.actual_number_links = self.number_links
         pyrosim.Start_NeuralNetwork("brain" + str(self.myId) + ".nndf")
         neurons = 0
         for i in self.sensors:
             pyrosim.Send_Sensor_Neuron(name = neurons, linkName = i)
-            self.storage['Sensor'].append([neurons, i])
+            self.storage['Sensor'].append(i)
             neurons += 1
         self.numSensorNeurons = len(self.sensors)
         motors = 0
@@ -471,7 +532,7 @@ class SOLUTION:
         # print(self.random_links)
         for i in self.motors:
                 pyrosim.Send_Motor_Neuron( name = neurons , jointName = i)
-                self.storage['Motor'].append([neurons, i])
+                self.storage['Motor'].append(i)
                 neurons += 1
                 motors += 1
 

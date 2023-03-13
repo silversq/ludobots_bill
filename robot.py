@@ -8,6 +8,7 @@ import constants as c
 class ROBOT:
     def __init__(self, solutionId):
         self.nn = NEURAL_NETWORK("brain" + str(solutionId) + ".nndf")
+        # print(str(solutionId))
         self.robotId = p.loadURDF("body" + str(solutionId) + ".urdf")
         os.system('del brain' + str(solutionId) + '.nndf')
         os.system('del body' + str(solutionId) + '.urdf')
@@ -38,8 +39,10 @@ class ROBOT:
         stateOfLinkZero = p.getLinkState(self.robotId,0)
         positionOfLinkZero = stateOfLinkZero[0]
         xCoordinateOfLinkZero = positionOfLinkZero[0]
+        yCoordinateOfLinkZero = positionOfLinkZero[1]
+        dist = (xCoordinateOfLinkZero**2+yCoordinateOfLinkZero**2)**0.5
         f = open("tmp" + str(solutionId) + ".txt", "w")
-        f.write(str(xCoordinateOfLinkZero))
+        f.write(str(dist))
         f.close()
         os.system("rename tmp" + str(solutionId) + ".txt " + "fitness_" + str(solutionId) + ".txt")
     def Think(self):
