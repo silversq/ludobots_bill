@@ -1,5 +1,6 @@
-# All evolution leads to scratching the ground to move around 
+# All evolution leads to scraping the ground
 
+![asd](https://user-images.githubusercontent.com/67875325/225191557-c014bd6d-df3e-4bfa-af37-2f404947a561.gif)
 
 If you want to make cool looking moving robots, you've come to the slightly right place. I got the moving robots, but cool is subjective. Here, in this README, I'll walk you through the steps to create some robots like the ones above. 
 
@@ -25,6 +26,6 @@ After mutating, we need to now see if it's actually better. We compare the mutat
 
 With this, I was able to run multiple simulations and run 10 populations for 500 generations 10 times, making it a total of 50,000 simulations. Plotting the best fitness for each simulation resulted in this graph:
 ![Figure_1](https://user-images.githubusercontent.com/67875325/225190247-d6f5c23c-4c80-428b-8b06-47a6def714d4.png)
-Some interesting notes while running are that most movement comes from a link scratching the ground to push the robot along. Also because of my fitness function, sometimes the robot will fall over to attempt to "move" the root link.
+Some interesting notes while running are that most movement comes from a link scraping the ground to push the robot along. Also because of my fitness function, sometimes the robot will fall over to attempt to "move" the root link.
 
 Now, you too can attempt to make your own evolving robot with your own version of mutations. Have fun!
