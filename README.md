@@ -1,20 +1,30 @@
-# 3D creature
+# All evolution leads to scratching the ground to move around 
 
-This is a random creature generator trying to go in the -x direction. It will generate a creature containing a random number of links that have a random chance to become a sensor. Each sensor will be able to move the joints when it touches the floor. Body generation will choose from random available faces from each link. It will then check for overlaps with previously made links, and if there is no overlap, create a new link at that face. With PHC, 20 parallel creatures will be formed and mutate through 150 generations. Each mutation will either add a link or change a non-sensor link to a sensor. After the mutation, it will find the creature with the best fitness and the next mutation will be on that creature. It will repeat for all generations.
 
-To run the program, run search.py.
+If you want to make cool looking moving robots, you've come to the slightly right place. I got the moving robots, but cool is subjective. Here, in this README, I'll walk you through the steps to create some robots like the ones above. 
 
-All information for setting up the bots was found in the reddit ludobots instructions starting here:
+First, all information for setting up the bots was found in the reddit ludobots instructions starting here:
 
 https://www.reddit.com/r/ludobots/wiki/installation/
 
-Neural Network for robots gotten from pyrosim:
+and Neural Network for robots gotten from pyrosim:
 https://github.com/jbongard/pyrosim
 
-Below is a diagram containing fitness curves of the creatures with 5 different random seeds:
-![Figure_1](https://user-images.githubusercontent.com/67875325/221719952-3fbce6a1-3dcf-4283-bfbd-9732da2632f7.png)
+Going through the steps above will get you to a good starting point of how to create a ludobot (blue and green blocks connected by joints) as well as using the neural network provided. 
 
-Below is a diagram illustrating the body and brain generation:
+Now, the first thing to do is figure out how you want to generate your robot. How many links do you want to make? How do you want to connect the joints together? What orientations do you need? 
+For me, I decided to do a random amount of links, with a 50 percent chance of each link becoming a sensor value. Each link will create a joint connected to the previous link, and sensor links will cause the joint to move in a different direction when the link is touching the ground. Whenever a link is about to be created, I first create an imaginary link at a random face from all of my links. If the imaginary link is overlapping with an existing link, then I choose another face. When the imaginary link doesn't overlap, I create that link and report it to my brain if my new link is a sensor. The brain will keep track of the sensor links when they touch the ground, and change the joint's direction. Lastly, I also change the width, height, and length of the links to bring more variety to my robots. Here is a more visualized diagram of my body and brain generation:
+![Generation](https://user-images.githubusercontent.com/67875325/225188446-026ad2f0-0445-4bb5-a8eb-dd5837be0d7c.jpg)
 
-![20230227_171729](https://user-images.githubusercontent.com/67875325/221718886-d7adf3ad-2da1-4019-bfce-88c3f642dc40.jpg)
-![20230227_171736](https://user-images.githubusercontent.com/67875325/221718861-43a55cf9-103a-4964-a17b-29f507aac4e6.jpg)
+Now, how do we figure out if the robot is moving? We need to use a fitness function, which is covered in ludobots, but it is some numerical value that can be compared to figure out which is better. For me, I have it as the distance between the root link and the position (0,0,0). 
+To make the robot evolve, we need to mutate the robot and use the fitness function on it. For my mutation, I have two options. One, add a new link to the robot. Two, change an existing non-sensor link to a sensor. This allows variety that can impact the fitness function. Here is a visualized diagram of the mutation:
+![Mutation](https://user-images.githubusercontent.com/67875325/225189030-d7454f8c-6dd8-4c3c-9f23-f7820bbe5b4f.jpg)
+
+After mutating, we need to now see if it's actually better. We compare the mutated fitness function and the initial fitness function, and then whichever one has the better fitness function will be used as the base for the mutation next time. Now, this will be very slow if we want to run it many times. To combat this, we will use parallel hill climbing, also mentioned in ludobots. For this, we run multiple instances of our program, each with an initial robot. The comparisons, mutations, and continuations will happen on each of them, and at the very end, we will take the highest fitness from the different robots as our best version. Here is a visualized diagram: 
+![phc](https://user-images.githubusercontent.com/67875325/225189846-3dd6803f-9c1f-497c-b635-ff5a670ae40e.jpg)
+
+With this, I was able to run multiple simulations and run 10 populations for 500 generations 10 times, making it a total of 50,000 simulations. Plotting the best fitness for each simulation resulted in this graph:
+![Figure_1](https://user-images.githubusercontent.com/67875325/225190247-d6f5c23c-4c80-428b-8b06-47a6def714d4.png)
+Some interesting notes while running are that most movement comes from a link scratching the ground to push the robot along. Also because of my fitness function, sometimes the robot will fall over to attempt to "move" the root link.
+
+Now, you too can attempt to make your own evolving robot with your own version of mutations. Have fun!
