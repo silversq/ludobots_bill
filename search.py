@@ -1,5 +1,7 @@
 import os
 from parallelhillclimber import PARALLEL_HILL_CLIMBER
+import numpy
+import matplotlib.pyplot as plt
 
 phc = PARALLEL_HILL_CLIMBER()
 phc.EVOLVE()

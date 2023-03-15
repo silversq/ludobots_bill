@@ -1,10 +1,11 @@
 import numpy 
 
-numberOfGenerations = 1
-populationSize = 1
+numberOfGenerations = 5
+populationSize = 5
 
-motorJointAngle = 1
-nSteps = 300
+motorJointAngle = 0.7
+nSteps = 1000
+randomSeed = 10
 
 numSensorNeurons = 1
 numMotorNeurons = 1
@@ -16,7 +17,7 @@ frontAmplitude = numpy.pi/4
 frontFrequency = 7
 frontPhaseOffset = numpy.pi/4
 
-backLegSensorValues = numpy.zeros(1000)
-frontLegSensorValues = numpy.zeros(1000)
-frontTargetAngles = numpy.sin((numpy.linspace(0, 2*numpy.pi, 1000)*frontFrequency)+frontPhaseOffset)*(frontAmplitude)
-backTargetAngles = numpy.sin((numpy.linspace(0, 2*numpy.pi, 1000)*backFrequency)+backPhaseOffset)*(backAmplitude)
+backLegSensorValues = numpy.zeros(nSteps)
+frontLegSensorValues = numpy.zeros(nSteps)
+frontTargetAngles = numpy.sin((numpy.linspace(0, 2*numpy.pi, nSteps)*frontFrequency)+frontPhaseOffset)*(frontAmplitude)
+backTargetAngles = numpy.sin((numpy.linspace(0, 2*numpy.pi, nSteps)*backFrequency)+backPhaseOffset)*(backAmplitude)
