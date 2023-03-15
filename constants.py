@@ -1,7 +1,7 @@
 import numpy 
 
-numberOfGenerations = 500
-populationSize = 10
+numberOfGenerations = 5
+populationSize = 5
 
 motorJointAngle = 0.7
 nSteps = 1000
