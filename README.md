@@ -29,4 +29,6 @@ With this, I was able to run multiple simulations and run 10 populations for 500
 Some interesting notes while running are that most movement comes from a link scraping the ground to push the robot along. Also because of my fitness function, sometimes the robot will fall over to attempt to "move" the root link.
 
 To run my version, run the search.py program. In constants.py, you can change the numberOfGenerations and populationSize (parallel) to have longer or shorter evolutions.
+
+For footage of my robots, check https://www.youtube.com/watch?v=h7Gf_g5aqw8.
 Now, you too can attempt to make your own evolving robot with your own version of mutations. Have fun!
