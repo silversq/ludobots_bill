@@ -32,8 +32,10 @@ class SOLUTION:
         else:
             self.Update_Body()
             self.Update_Brain()
-        os.system('start /B py simulate.py ' + directOrGUI + ' ' + str(self.myId))
-
+        if directOrGUI == "GUI":
+            os.system("py simulate.py " + directOrGUI + " " + str(self.myId)) #hwi is the program that runs simulation
+        else:
+            os.system("start /B py simulate.py " + directOrGUI + " "+ str(self.myId)) #if no GUI run direct
     def Wait_For_Simulation_To_End(self):
         # print(self.myId)
         while not os.path.exists("fitness_" + str(self.myId) + ".txt"):
