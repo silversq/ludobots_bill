@@ -33,8 +33,6 @@ class PARALLEL_HILL_CLIMBER:
                 lowest_parent = self.parents[i]
                 d = i
         # print('\n Lowest fitness: ' + str(lowest_parent.fitness) + '\n')
-        print(self.graph[d])
-        input("start")
         lowest_parent.Start_Simulation('GUI')
         # x = [i for i in range(0, c.numberOfGenerations)]
         # for i in self.graph.keys():
