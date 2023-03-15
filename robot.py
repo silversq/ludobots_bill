@@ -38,8 +38,10 @@ class ROBOT:
         stateOfLinkZero = p.getLinkState(self.robotId,0)
         positionOfLinkZero = stateOfLinkZero[0]
         xCoordinateOfLinkZero = positionOfLinkZero[0]
+        yCoordinate = positionOfLinkZero[1]
+        distance = (xCoordinateOfLinkZero**2+yCoordinate**2)**0.5
         f = open("tmp" + str(solutionId) + ".txt", "w")
-        f.write(str(xCoordinateOfLinkZero))
+        f.write(str(distance))
         f.close()
         os.system("rename tmp" + str(solutionId) + ".txt " + "fitness_" + str(solutionId) + ".txt")
     def Think(self):

@@ -115,9 +115,11 @@ class SOLUTION:
                     self.storage['Sensor'].append([self.numSensorNeurons+1, "Cube"+str(self.number_links)])
                     self.numSensorNeurons += 1
                     self.numMotorNeurons += 1
+                    self.storage['Motor'].append([self.numMotorNeurons+1, new_link_pos[0]+"_Cube"+str(self.number_links)])
+
             else:
                 self.storage[self.lastiD].append(["Cube"+str(self.number_links),cube_pos, [length,width,height],"Cyan", "0 1.0 1.0 1.0"])
-            self.storage['Motor'].append([self.numMotorNeurons+1, new_link_pos[0]+"_Cube"+str(self.number_links)])
+            # self.storage['Motor'].append([self.numMotorNeurons+1, new_link_pos[0]+"_Cube"+str(self.number_links)])
 
             old_length = length
             old_width = width
@@ -422,11 +424,11 @@ class SOLUTION:
                 if "Cube"+str(i) not in self.sensors:
                     self.sensors.append("Cube"+str(i))
                 self.storage[self.myId].append(["Cube"+str(i),cube_pos, [length,width,height],"Green", "0 1.0 0.0 1.0"])
-
+                self.motors.append(new_link_pos[0]+"_Cube"+str(i))
             else:
                 pyrosim.Send_Cube(name="Cube"+str(i), pos=cube_pos , size=[length,width,height], color="Cyan", rgb = "0 1.0 1.0 1.0")
                 self.storage[self.myId].append(["Cube"+str(i),cube_pos, [length,width,height],"Cyan", "0 1.0 1.0 1.0"])
-            self.motors.append(new_link_pos[0]+"_Cube"+str(i))
+            # self.motors.append(new_link_pos[0]+"_Cube"+str(i))
 
             old_length = length
             old_width = width
